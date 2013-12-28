@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"itarato/types/array"
 	"log"
 	"os"
 )
@@ -19,8 +20,10 @@ func main() {
 		log.Fatalln("Error occured during file read")
 	}
 
+	state_stack := array.New()
 	for _, char := range file_content {
 		fmt.Println(string(char))
+		state_stack.Push(char)
 	}
 
 }
