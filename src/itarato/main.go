@@ -28,17 +28,20 @@ func main() {
 	}
 
 	// Stack for the actual context state.
-	context_state_stack := types.NewStack()
-	buffer_string := ""
-	rules := rules.GetRules()
+	rule_stack := types.NewStack()
+	rule_stack.Push(&rules.PHPFileRule{})
 
+	// Buffer for the latest word to analyze. It's emptied after each analized segment.
+	buffer_string := ""
+
+	// Iterate through characters.
 	for _, char := range file_content {
 		buffer_string += string(char)
+		// Debug information.
 		fmt.Println("Read:\t", types.ReplaceWhitespaces(string(char)), "\tinto:\t", types.ReplaceWhitespaces(buffer_string))
 
-		for _, rule := range rules {
-			rule.Read(char, &buffer_string, context_state_stack)
-		}
+		// Analyze the current position with the latest rule.
+		rule_stack.Top().Read(char, &buffer_string, rule_stack)
 	}
 
 }

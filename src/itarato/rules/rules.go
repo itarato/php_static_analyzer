@@ -1,6 +1,6 @@
 package rules
 
 func GetRules() (rules []IRule) {
-	phprule := &PHPScriptRule{}
-	return []IRule{phprule}
+	// Main rule is the php-file rule.
+	return []IRule{&PHPFileRule{}}
 }
