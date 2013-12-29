@@ -40,3 +40,7 @@ func (s *Stack) Top() (item interface{}, err error) {
 	item = s.top
 	return item, nil
 }
+
+func (s *Stack) Length() (count uint8) {
+	return s.count
+}
