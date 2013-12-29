@@ -34,6 +34,7 @@ func main() {
 	// Buffer for the latest word to analyze. It's emptied after each analized segment.
 	buffer_string := ""
 
+	// var r *rules.IRule{}
 	// Iterate through characters.
 	for _, char := range file_content {
 		buffer_string += string(char)
@@ -41,7 +42,11 @@ func main() {
 		fmt.Println("Read:\t", types.ReplaceWhitespaces(string(char)), "\tinto:\t", types.ReplaceWhitespaces(buffer_string))
 
 		// Analyze the current position with the latest rule.
-		rule_stack.Top().Read(char, &buffer_string, rule_stack)
+		active_rule, err := rule_stack.Top()
+		if err != nil {
+			log.Fatalln("Error: empty rule stack")
+		}
+		active_rule.(rules.IRule).Read(char, &buffer_string, rule_stack)
 	}
 
 }

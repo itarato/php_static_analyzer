@@ -41,7 +41,7 @@ func (s *Stack) Top() (item interface{}, err error) {
 		return nil, errors.New("Empty stack")
 	}
 
-	item = s.top
+	item = s.top.item
 	return item, nil
 }
 
