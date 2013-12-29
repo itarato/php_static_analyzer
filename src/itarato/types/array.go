@@ -1,6 +1,9 @@
-package array
+package types
 
-import "errors"
+import (
+	"errors"
+	"log"
+)
 
 type StackItem struct {
 	item interface{}
@@ -12,13 +15,14 @@ type Stack struct {
 	count uint8
 }
 
-func New() (s *Stack) {
+func NewStack() (s *Stack) {
 	return &Stack{}
 }
 
 func (s *Stack) Push(item interface{}) {
 	s.count++
 	s.top = &StackItem{item, s.top}
+	log.Println("Stack", s, "push:", item)
 }
 
 func (s *Stack) Pop() (item interface{}, err error) {
