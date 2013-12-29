@@ -17,3 +17,7 @@ func (rule *PHPFileRule) Read(char byte, buffer *string, context_state *types.St
 
 	// @todo add later closing php tag
 }
+
+func (rule *PHPFileRule) GetName() string {
+	return "PHP file"
+}

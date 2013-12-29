@@ -21,11 +21,10 @@ func main() {
 
 	// Load file content.
 	file_content, err := ioutil.ReadFile(file_name)
-	log.Println("File length:", len(file_content), "bytes")
-
 	if err != nil {
 		log.Fatalln("Error occured during file read")
 	}
+	log.Println("File length:", len(file_content), "bytes")
 
 	// Stack for the actual context state.
 	rule_stack := types.NewStack()
@@ -34,7 +33,6 @@ func main() {
 	// Buffer for the latest word to analyze. It's emptied after each analized segment.
 	buffer_string := ""
 
-	// var r *rules.IRule{}
 	// Iterate through characters.
 	for _, char := range file_content {
 		buffer_string += string(char)
@@ -48,5 +46,4 @@ func main() {
 		}
 		active_rule.(rules.IRule).Read(char, &buffer_string, rule_stack)
 	}
-
 }

@@ -5,7 +5,8 @@ import (
 )
 
 func ReplaceWhitespaces(s string) string {
-	for _, pattern := range []string{"n", "r", "s", "t"} {
+	// Replace whitespaces to something visual. Eg.: \n -> [n].
+	for _, pattern := range []string{"n", "r", "t", "s"} {
 		rx, _ := regexp.Compile("\\" + pattern)
 		s = rx.ReplaceAllString(s, "["+pattern+"]")
 	}
@@ -13,5 +14,5 @@ func ReplaceWhitespaces(s string) string {
 }
 
 func IsWhitespace(char byte) bool {
-	return true
+	return char == '\n' || char == '\r' || char == '\t' || char == ' '
 }
