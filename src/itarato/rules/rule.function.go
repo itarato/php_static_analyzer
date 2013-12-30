@@ -14,10 +14,11 @@ type FunctionRule struct {
 }
 
 const (
-	STATE_INIT  = "init"
-	STATE_NAME  = "name"
-	STATE_ARGS  = "args"
-	STATE_BLOCK = "block"
+	STATE_INIT        = "init"
+	STATE_NAME        = "name"
+	STATE_ARGS        = "args"
+	STATE_BLOCK_BEGIN = "block_begin"
+	STATE_BLOCK       = "block"
 )
 
 func NewFunctionRule() *FunctionRule {
@@ -50,6 +51,21 @@ func (rule *FunctionRule) Read(char byte, buffer *string, context_state *types.S
 			*buffer = ""
 
 			return
+		}
+	}
+
+	if rule.state == STATE_ARGS {
+		if char == ')' {
+			*buffer = ""
+			rule.state = STATE_BLOCK_BEGIN
+		}
+	}
+
+	if rule.state == STATE_BLOCK_BEGIN {
+		if char == '{' {
+			*buffer = ""
+			rule.state = STATE_BLOCK
+			context_state.Push(rule.php_script_rule)
 		}
 	}
 

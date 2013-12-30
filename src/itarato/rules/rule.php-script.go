@@ -33,6 +33,13 @@ func (rule *PHPScriptRule) TryOn(char byte, buffer *string, context_state *types
 func (rule *PHPScriptRule) Read(char byte, buffer *string, context_state *types.Stack) {
 	rule.function_rule.TryOn(char, buffer, context_state)
 
+	if char == '}' {
+		// Maybe it should be a variable escape token: "}" or "?>" ...
+		*buffer = ""
+		context_state.Pop()
+		context_state.Pop()
+	}
+
 	// @todo add later closing php tag.
 }
 
