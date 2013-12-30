@@ -4,11 +4,15 @@ import (
 	"itarato/types"
 )
 
-type PHPScriptRule Rule
+type PHPScriptRule struct {
+	Rule
+	function_rule *FunctionRule
+}
 
-var (
-	function_rule *FunctionRule = &FunctionRule{}
-)
+func NewPHPScriptRule() *PHPScriptRule {
+	rule := new(PHPScriptRule)
+	return rule
+}
 
 func (rule *PHPScriptRule) TryOn(char byte, buffer *string, context_state *types.Stack) bool {
 	if types.IsEqualWithAClosure(*buffer, "<?php", types.WHITESPACE_ALL) {
@@ -18,16 +22,18 @@ func (rule *PHPScriptRule) TryOn(char byte, buffer *string, context_state *types
 		// Clear buffer.
 		*buffer = ""
 
+		rule.function_rule = NewFunctionRule()
+
 		return true
 	}
-
-	// @todo add later closing php tag.
 
 	return false
 }
 
 func (rule *PHPScriptRule) Read(char byte, buffer *string, context_state *types.Stack) {
-	function_rule.TryOn(char, buffer, context_state)
+	rule.function_rule.TryOn(char, buffer, context_state)
+
+	// @todo add later closing php tag.
 }
 
 func (rule *PHPScriptRule) GetName() string {

@@ -28,7 +28,7 @@ func main() {
 
 	// Stack for the actual context state.
 	rule_stack := types.NewStack()
-	rule_stack.Push(&rules.PHPFileRule{})
+	rule_stack.Push(rules.NewPHPFileRule())
 
 	// Buffer for the latest word to analyze. It's emptied after each analized segment.
 	buffer_string := ""
