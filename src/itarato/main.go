@@ -36,14 +36,14 @@ func main() {
 	// Iterate through characters.
 	for _, char := range file_content {
 		buffer_string += string(char)
-		// Debug information.
-		fmt.Println("Read:\t", types.ReplaceWhitespaces(string(char)), "\tinto:\t", types.ReplaceWhitespaces(buffer_string))
 
 		// Analyze the current position with the latest rule.
 		active_rule, err := rule_stack.Top()
 		if err != nil {
 			log.Fatalln("Error: empty rule stack")
 		}
+		// Debug information.
+		fmt.Println("Read:\t", types.ReplaceWhitespaces(string(char)), "\tinto:\t", types.ReplaceWhitespaces(buffer_string), "\trule\t", active_rule.(rules.IRule).GetName())
 		active_rule.(rules.IRule).Read(char, &buffer_string, rule_stack)
 	}
 }

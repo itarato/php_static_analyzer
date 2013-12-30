@@ -10,6 +10,10 @@ type Rule struct {
 
 // Rule interface.
 type IRule interface {
+	/**
+	 * Try the rule if it's applicable.
+	 */
+	TryOn(char byte, buffer *string, context_state *types.Stack) bool
 
 	/**
 	 * Interface function for a Rule to read the next character from the file
