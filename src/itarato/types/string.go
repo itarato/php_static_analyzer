@@ -22,6 +22,11 @@ func IsWhitespace(char byte) bool {
 	return char == '\n' || char == '\r' || char == '\t' || char == ' ' || char == '\v' || char == '\f'
 }
 
+func IsWhitespaces(s string) bool {
+	rx, _ := regexp.Compile("^[" + WHITESPACE_ALL + "]*$")
+	return rx.MatchString(s)
+}
+
 func IsEqualWithAClosure(original string, test string, closure_chars string) bool {
 	// Trim.
 	original_trimmed := strings.Trim(original, WHITESPACE_ALL)

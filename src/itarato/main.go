@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"itarato/lexer"
 	"itarato/rules"
 	"itarato/types"
 	"log"
@@ -34,16 +35,24 @@ func main() {
 	buffer_string := ""
 
 	// Iterate through characters.
+	var lexer_result *lexer.LexerResult
 	for _, char := range file_content {
-		buffer_string += string(char)
+		lexer_result = lexer.Interpret(&buffer_string, char)
 
-		// Analyze the current position with the latest rule.
-		active_rule, err := rule_stack.Top()
-		if err != nil {
-			log.Fatalln("Error: empty rule stack")
+		if lexer_result.Found {
+			fmt.Println("Found token: ", types.ReplaceWhitespaces(buffer_string))
+			buffer_string = string(char)
+		} else {
+			buffer_string += string(char)
 		}
-		// Debug information.
-		fmt.Println("Read:\t", types.ReplaceWhitespaces(string(char)), "\tinto:\t", types.ReplaceWhitespaces(buffer_string), "\trule\t", active_rule.(rules.IRule).GetName())
-		active_rule.(rules.IRule).Read(char, &buffer_string, rule_stack)
+
+		// // Analyze the current position with the latest rule.
+		// active_rule, err := rule_stack.Top()
+		// if err != nil {
+		// 	log.Fatalln("Error: empty rule stack")
+		// }
+		// // Debug information.
+		// fmt.Println("Read:\t", types.ReplaceWhitespaces(string(char)), "\tinto:\t", types.ReplaceWhitespaces(buffer_string), "\trule\t", active_rule.(rules.IRule).GetName())
+		// active_rule.(rules.IRule).Read(char, &buffer_string, rule_stack)
 	}
 }
